@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import ast; ast.parse\\(open\\('app.py', encoding='utf-8'\\).read\\(\\)\\); print\\('Syntax OK'\\)\")",
+      "Bash(python -c ':*)",
+      "Read(//c/Users/rajga/Downloads/**)",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('app.py',encoding='utf-8'\\).read\\(\\)\\); print\\('Syntax OK'\\)\")",
+      "Read(//c/Users/rajga/AppData/Roaming/Claude/local-agent-mode-sessions/skills-plugin/d3c2f9c0-bb4f-4175-a3ed-ba6b19ac3116/5c3709d8-6f21-4291-9fe6-cb324021dc64/skills/xlsx/**)",
+      "Bash(python)",
+      "Bash(python -c \"from config import SYSTEM_NAME, SYSTEM_FULL, CLIENT_NAME, PLATFORM_NAME, ATLAS_VERSION, NETWORK_PORTS, NETWORK_COUNTRIES, TOTAL_VESSELS, DEPOT_LOCATIONS, GLOBAL_EMPTY_TEUS, MAERSK_DARK, MAERSK_BLUE, MAERSK_LIGHT, MAERSK_TEAL, BG_PAGE, BG_CARD, BG_SIDEBAR, BG_ALT, TEXT_H, TEXT_BODY, TEXT_MUTED, TEXT_CAPTION, TEXT_INV, BORDER, BORDER_STRONG, SUCCESS, WARNING, DANGER, INFO, USE_CASES, ATLAS_PORTS, DEPOT_INVENTORY, FLEET_VESSELS, CUSTOMERS, DEMAND_SCENARIOS, BASELINE_STATIC, ROUTE_OPTIONS_BASE, WHATIF_SCENARIOS, WEIGHT_PROFILES, IMPACT, MONITOR_PORTS, CONTAINER_INVENTORY, DATA_SOURCES, NEWS_ITEMS; print\\('config OK'\\)\")",
+      "Bash(python -c \"from agents import DemandSensingAgent, SupplyFinderAgent, OptimizationAgent, CongestionAgent; print\\('agents OK'\\)\")",
+      "Bash(python -c \"from atlas_agents import DemandSensingAgent, SupplyFinderAgent, OptimizationAgent, CongestionAgent; print\\('atlas_agents OK'\\)\")",
+      "Bash(python -c \"import config; print\\('FLEET_VESSELS V001 planned_route:', config.FLEET_VESSELS[0].get\\('planned_route'\\)\\); print\\('DEMAND_ALERTS keys:', list\\(config.DEMAND_ALERTS.keys\\(\\)\\)\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('app.py'\\).read\\(\\)\\); print\\('app.py syntax OK'\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('app.py', encoding='utf-8'\\).read\\(\\)\\); print\\('app.py syntax OK'\\)\")",
+      "Bash(.venv/Scripts/python -c \"import app\")"
+    ]
+  }
+}

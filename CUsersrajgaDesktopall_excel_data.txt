@@ -1,0 +1,71 @@
+
+========================================================================================================================
+FILE: UC_Pricing_AI 1 1.xlsx
+========================================================================================================================
+
+SHEET: UC-P1 Pricing AI
+Dimensions: 12 rows x 14 columns
+
+--- ROW 0 ---
+  [TCS Pricing AI — Most Valuable Use Case Deep Dive  |  Maersk Commercial Operations  |  Domain: Pricing AI] = UC-P1
+  [Unnamed: 2] = Agentic Contract Intelligence & Real-Time Surcharge Automation   |   Domain: Pricing AI   |   Process Chain: Chain 4   |   Annual Value: $2.78B+
+
+--- ROW 1 ---
+ERROR: UnicodeEncodeError: 'charmap' codec can't encode character '\u2605' in position 112: character maps to <undefined>
+
+
+========================================================================================================================
+FILE: UC_Fuel_Optimization 1 1.xlsx
+========================================================================================================================
+
+SHEET: UC-F1 Fuel Optimization
+Dimensions: 12 rows x 14 columns
+
+--- ROW 0 ---
+  [TCS Fuel Optimization — Most Valuable Use Case Deep Dive  |  Maersk Global Fleet  |  Domain: Fuel Optimization] = UC-F1
+  [Unnamed: 2] = GNN Voyage Intelligence & Autonomous Bunkering Agent   |   Domain: Fuel Optimization   |   Process Chain: Chain 2   |   Annual Value: $300M+
+
+--- ROW 1 ---
+ERROR: UnicodeEncodeError: 'charmap' codec can't encode character '\u2605' in position 117: character maps to <undefined>
+
+
+========================================================================================================================
+FILE: UC_Container_SupplyChain 1 3.xlsx
+========================================================================================================================
+
+SHEET: UC-C1 Container Supply Chain
+Dimensions: 12 rows x 14 columns
+
+--- ROW 0 ---
+  [TCS Container & Supply Chain — Most Valuable Use Case Deep Dive  |  Maersk Global Operations  |  Domain: Container & Supply Chain] = UC-C1
+  [Unnamed: 2] = Generative Disruption Simulation & Autonomous Repositioning   |   Domain: Container & Supply Chain   |   Process Chain: Chain 3   |   Annual Value: $250M+
+
+--- ROW 1 ---
+ERROR: UnicodeEncodeError: 'charmap' codec can't encode character '\u2605' in position 136: character maps to <undefined>
+
+
+========================================================================================================================
+FILE: UC_AIO2_MostValuable 1 (1) 1.xlsx
+========================================================================================================================
+
+SHEET: UC-AIO2 Deep Dive
+Dimensions: 11 rows x 14 columns
+
+--- ROW 0 ---
+  [TCS AIOps — Most Valuable Use Case Deep Dive] = UC-AIO2
+  [Unnamed: 2] = Auto Root Cause Analysis & Self-Healing Systems   |   Domain: AIOps   |   Process Chain: Chain 5   |   Annual Value: $100M+
+
+--- ROW 1 ---
+ERROR: UnicodeEncodeError: 'charmap' codec can't encode character '\u2605' in position 51: character maps to <undefined>
+
+
+========================================================================================================================
+FILE: ControlTower_UC_CT1_Highlight (1) 1.xlsx
+========================================================================================================================
+
+SHEET: Control Tower Use Case
+Dimensions: 5 rows x 14 columns
+
+--- ROW 0 ---
+ERROR: UnicodeEncodeError: 'charmap' codec can't encode character '\u2605' in position 125: character maps to <undefined>
+
