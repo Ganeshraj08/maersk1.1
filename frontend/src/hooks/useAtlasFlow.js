@@ -93,7 +93,9 @@ function generateAgentLogs(scenario) {
 
 export function useAtlasFlow() {
   const [stage, setStage]               = useState(FLOW_STAGES.IDLE)
-  const [activeScenario, setScenario]   = useState('vietnam_surge')
+  const [activeScenario, setScenario]   = useState(
+    () => localStorage.getItem('atlas_scenario') || 'vietnam_surge'
+  )
   const [agentLogs, setAgentLogs]       = useState([])
   const [activeAgent, setActiveAgent]   = useState(null)
   const [agentProgress, setAgentProgress] = useState(0)
@@ -228,6 +230,11 @@ export function useAtlasFlow() {
     setRepositioningApproved(false)
   }, [])
 
+  const setScenarioPersisted = useCallback((id) => {
+    localStorage.setItem('atlas_scenario', id)
+    setScenario(id)
+  }, [])
+
   return {
     stage, scenario, agentLogs, activeAgent, agentProgress,
     approvedRouteIdx, setApprovedRouteIdx,
@@ -237,6 +244,6 @@ export function useAtlasFlow() {
     goToAct2A, goToAct2C, goToAct3, goToAct4A, goToAct4B, goToAct5,
     approveRepositioning, receiveBooking,
     executeApprove, complete, reset,
-    setScenario,
+    setScenario: setScenarioPersisted,
   }
 }

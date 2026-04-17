@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { USE_CASES, SYSTEM_INFO, NEWS_ITEMS, IMPACT } from '../data/maritimeData'
+import { USE_CASES, SYSTEM_INFO, NEWS_ITEMS, IMPACT, DEMAND_SCENARIOS } from '../data/maritimeData'
 
 // ── KPI tiles shown in hero ────────────────────────────────────────────────────
 const HERO_KPIS = [
@@ -130,8 +130,18 @@ function UseCaseCard({ uc, onLaunch }) {
 // ══════════════════════════════════════════════════════════════════════════════
 export default function Home() {
   const navigate = useNavigate()
-  const [newsIdx, setNewsIdx] = useState(0)
-  const [time, setTime]       = useState(new Date())
+  const [newsIdx, setNewsIdx]         = useState(0)
+  const [time, setTime]               = useState(new Date())
+  const [settingsOpen, setSettingsOpen] = useState(false)
+  const [activeScenario, setActiveScenario] = useState(
+    () => localStorage.getItem('atlas_scenario') || 'vietnam_surge'
+  )
+
+  const handleScenarioChange = (id) => {
+    localStorage.setItem('atlas_scenario', id)
+    setActiveScenario(id)
+    setSettingsOpen(false)
+  }
 
   useEffect(() => {
     const t = setInterval(() => setTime(new Date()), 1000)
@@ -179,6 +189,65 @@ export default function Home() {
             <div className="text-xs text-maersk-muted font-mono">
               UTC {time.toISOString().slice(11,19)}
             </div>
+            {/* Settings gear */}
+            <div className="relative">
+              <button
+                onClick={() => setSettingsOpen(o => !o)}
+                className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
+                  settingsOpen
+                    ? 'bg-maersk-teal/20 border border-maersk-teal/50 text-maersk-teal'
+                    : 'bg-maersk-blue/10 border border-maersk-blue/30 text-gray-400 hover:text-white hover:border-maersk-blue/60'
+                }`}
+                title="Demo settings"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+              </button>
+
+              <AnimatePresence>
+                {settingsOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setSettingsOpen(false)} />
+                    <motion.div
+                      initial={{ opacity:0, y:-8, scale:0.95 }}
+                      animate={{ opacity:1, y:0,  scale:1 }}
+                      exit={{ opacity:0,  y:-8, scale:0.95 }}
+                      transition={{ duration:0.15 }}
+                      className="absolute right-0 top-10 z-50 w-72 bg-maersk-dark border border-maersk-blue/30 rounded-xl shadow-2xl p-4"
+                      style={{ boxShadow:'0 8px 40px rgba(0,0,0,0.6)' }}
+                    >
+                      <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-3">Demo Settings</p>
+
+                      <div className="mb-3">
+                        <p className="text-xs text-gray-400 mb-1.5">Active Demand Scenario</p>
+                        <select
+                          className="w-full bg-maersk-navy border border-maersk-blue/30 text-xs text-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-maersk-teal"
+                          value={activeScenario}
+                          onChange={e => handleScenarioChange(e.target.value)}
+                        >
+                          {Object.values(DEMAND_SCENARIOS).map(s => (
+                            <option key={s.id} value={s.id}>{s.name}</option>
+                          ))}
+                        </select>
+                        <p className="text-[10px] text-gray-600 mt-1.5">
+                          Select a scenario before launching Container SC.
+                        </p>
+                      </div>
+
+                      <div className="bg-maersk-blue/10 border border-maersk-blue/20 rounded-lg p-2.5">
+                        <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">Active</p>
+                        <p className="text-xs font-semibold text-maersk-teal">{DEMAND_SCENARIOS[activeScenario]?.name}</p>
+                        <p className="text-[10px] text-gray-500 mt-0.5">
+                          {DEMAND_SCENARIOS[activeScenario]?.prediction?.demand} · {DEMAND_SCENARIOS[activeScenario]?.prediction?.confidence}% confidence
+                        </p>
+                      </div>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
+
             {/* Live dot */}
             <div className="flex items-center gap-1.5">
               <span className="live-dot" />
