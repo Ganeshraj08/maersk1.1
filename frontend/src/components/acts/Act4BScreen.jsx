@@ -1,11 +1,11 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { FLOW_STAGES } from '../../hooks/useAtlasFlow'
+import { FLOW_STAGES, stageAtLeast } from '../../hooks/useAtlasFlow'
 import { FLEET_VESSELS } from '../../data/maritimeData'
 
 export default function Act4BScreen({ flow }) {
   const { stage, sapStepsDone, executeApprove, goToAct5, scenario } = flow
-  if (stage !== FLOW_STAGES.ACT4B_EXECUTE) return null
+  if (!stageAtLeast(stage, FLOW_STAGES.ACT4B_EXECUTE)) return null
 
   // Use scenario-specific SAP steps (each scenario has its own sapSteps)
   const sapSteps = scenario?.sapSteps || []

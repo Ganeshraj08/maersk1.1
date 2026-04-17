@@ -626,7 +626,7 @@ export const DATA_SOURCES = [
 
 // ─── DASHBOARD KPIs ───────────────────────────────────────────────────────────
 export const PROBLEM_STATE_KPIS = {
-  emptyRepositioningCost: { value:'$1.82B',   change:+12.4, label:'Empty Repositioning Cost',  period:'YTD',    unit:'USD', inverse:true  },
+  emptyRepositioningCost: { value:'$1.82B',   change:+12.4, label:'Empty Repositioning Cost',  period:'YOY',    unit:'USD', inverse:true  },
   slaAdherence:           { value:'62.3%',    change:-8.2,  label:'SLA Adherence',             period:'MTD',    unit:'%',   inverse:false },
   manualTimeline:         { value:'72 hrs',   change:+5.1,  label:'Manual Repositioning Time', period:'Avg',    unit:'hrs', inverse:true  },
   decisionTime:           { value:'72 hrs',   change:0,     label:'Decision Time (Manual)',    period:'Manual', unit:'hrs', inverse:true  },
@@ -634,7 +634,7 @@ export const PROBLEM_STATE_KPIS = {
   bookingNotifications:   { value:'0 queued', change:0,     label:'Booking Notifications',     period:'Live',   unit:''                   },
   containerLeaseCost:     { value:'$3.1B',    change:+8.5,  label:'Container Leasing Cost',    period:'Annual', unit:'USD', inverse:true  },
   coLoadSavings:          { value:'$0',       change:0,     label:'Co-load Savings Captured',  period:'Today',  unit:'USD', inverse:false },
-  co2Reduction:           { value:'0%',       change:0,     label:'CO₂ Reduction YTD',         period:'YTD',    unit:'%',   inverse:false },
+  co2Reduction:           { value:'0%',       change:0,     label:'CO₂ Reduction YOY',         period:'YOY',    unit:'%',   inverse:false },
 }
 
 export const RESOLVED_KPIS = {
@@ -646,7 +646,7 @@ export const RESOLVED_KPIS = {
   bookingNotifications:   { value:'132 sent', change:+594,  label:'Booking Notifications',     period:'Automated',  unit:''                   },
   containerLeaseCost:     { value:'$2.1B',    change:-32,   label:'Container Leasing Cost',    period:'Annual',     unit:'USD', inverse:true  },
   coLoadSavings:          { value:'$286K',    change:+741,  label:'Co-load Savings Captured',  period:'Today',      unit:'USD', inverse:false },
-  co2Reduction:           { value:'23%',      change:+19,   label:'CO₂ Reduction YTD',         period:'YTD',        unit:'%',   inverse:false },
+  co2Reduction:           { value:'23%',      change:+19,   label:'CO₂ Reduction YOY',         period:'YOY',        unit:'%',   inverse:false },
 }
 
 export const DASHBOARD_KPIS = PROBLEM_STATE_KPIS

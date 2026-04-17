@@ -1,17 +1,17 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { FLOW_STAGES } from '../../hooks/useAtlasFlow'
+import { FLOW_STAGES, stageAtLeast } from '../../hooks/useAtlasFlow'
 
-export default function Act2AScreen({ flow }) {
+export default function Act2AScreen({ flow, mode = 'street-turn' }) {
   const { stage, scenario, goToAct2C, goToAct4B } = flow
 
-  const isStreetTurn = stage === FLOW_STAGES.ACT2A_STREET_TURN
-  const isRecommend  = stage === FLOW_STAGES.ACT4A_RECOMMEND
-
-  if (!isStreetTurn && !isRecommend) return null
+  // Persist until reset — only hide if stage hasn't reached the relevant point yet
+  if (mode === 'street-turn'   && !stageAtLeast(stage, FLOW_STAGES.ACT2A_STREET_TURN)) return null
+  if (mode === 'recommendation' && !stageAtLeast(stage, FLOW_STAGES.ACT4A_RECOMMEND))  return null
 
   // ── Street-Turn view (Act 2A) ──────────────────────────────────────────────
-  if (isStreetTurn) {
+  if (mode === 'street-turn') {
+    const canAdvance = stage === FLOW_STAGES.ACT2A_STREET_TURN
     const matches   = scenario?.streetTurnMatches || []
     const totalTeus = scenario?.streetTurnTotalTeus || 0
     const remaining = scenario?.remainingTeus || 0
@@ -139,15 +139,22 @@ export default function Act2AScreen({ flow }) {
           </motion.div>
         </div>
 
-        {/* Action */}
-        <button onClick={goToAct2C} className="btn-primary w-full">
-          View Co-load Optimisation →
-        </button>
+        {/* Action — only shown at this exact stage, replaced by status badge once advanced */}
+        {canAdvance ? (
+          <button onClick={goToAct2C} className="btn-primary w-full">
+            View Co-load Optimisation →
+          </button>
+        ) : (
+          <div className="text-center py-2">
+            <span className="badge-green">✓ Street-turn confirmed — co-load optimisation complete</span>
+          </div>
+        )}
       </motion.div>
     )
   }
 
   // ── Recommendation view (Act 4A) ───────────────────────────────────────────
+  const canExecute = stage === FLOW_STAGES.ACT4A_RECOMMEND
   const repositionOptions = scenario?.repositionOptions || []
 
   return (
@@ -232,9 +239,15 @@ export default function Act2AScreen({ flow }) {
         ))}
       </div>
 
-      <button onClick={goToAct4B} className="btn-primary">
-        Proceed to SAP Execution →
-      </button>
+      {canExecute ? (
+        <button onClick={goToAct4B} className="btn-primary">
+          Proceed to SAP Execution →
+        </button>
+      ) : (
+        <div className="text-center py-2">
+          <span className="badge-green">✓ SAP execution initiated</span>
+        </div>
+      )}
     </motion.div>
   )
 }

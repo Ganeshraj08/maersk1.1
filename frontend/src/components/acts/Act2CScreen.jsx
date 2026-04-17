@@ -1,10 +1,11 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { FLOW_STAGES } from '../../hooks/useAtlasFlow'
+import { FLOW_STAGES, stageAtLeast } from '../../hooks/useAtlasFlow'
 
 export default function Act2CScreen({ flow }) {
   const { stage, scenario, approveRepositioning } = flow
-  if (stage !== FLOW_STAGES.ACT2C_COLOAD) return null
+  if (!stageAtLeast(stage, FLOW_STAGES.ACT2C_COLOAD)) return null
+  const canApprove = stage === FLOW_STAGES.ACT2C_COLOAD
 
   const streetTurn = scenario?.streetTurn || {}
   const { oldWay = {}, atlasWay = {} } = streetTurn
@@ -121,15 +122,23 @@ export default function Act2CScreen({ flow }) {
         transition={{ delay:0.7 }}
         className="bg-maersk-teal/5 border border-maersk-teal/30 rounded-xl p-4"
       >
-        <p className="text-xs text-gray-400 mb-3 text-center">
-          ATLAS has pre-positioned containers and found co-load match. Ready to commit repositioning.
-        </p>
-        <button onClick={approveRepositioning} className="btn-primary w-full text-base py-3">
-          ✅ Repositioning On Stage →
-        </button>
-        <p className="text-[10px] text-gray-600 text-center mt-2">
-          Containers staged and ready — dashboard will update with port changes.
-        </p>
+        {canApprove ? (
+          <>
+            <p className="text-xs text-gray-400 mb-3 text-center">
+              ATLAS has pre-positioned containers and found co-load match. Ready to commit repositioning.
+            </p>
+            <button onClick={approveRepositioning} className="btn-primary w-full text-base py-3">
+              ✅ Repositioning On Stage →
+            </button>
+            <p className="text-[10px] text-gray-600 text-center mt-2">
+              Containers staged and ready — dashboard will update with port changes.
+            </p>
+          </>
+        ) : (
+          <div className="text-center py-1">
+            <span className="badge-green">✓ Repositioning approved — containers staged and in transit</span>
+          </div>
+        )}
       </motion.div>
     </motion.div>
   )

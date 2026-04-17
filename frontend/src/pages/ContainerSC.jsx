@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
@@ -194,6 +194,73 @@ function KpiImpactTab() {
   )
 }
 
+// ──────────────────────────────────────────────────────────────────────────────
+//  LIVE INTELLIGENCE FEED
+// ──────────────────────────────────────────────────────────────────────────────
+const INTEL_MSGS = [
+  { agent:'DEMAND',    color:'#00B4D8', text:'Port HCMC scanned — TEU inventory signal at 94.1% confidence, Vietnam surge active' },
+  { agent:'SUPPLY',    color:'#10B981', text:'EVER JADE position updated — 340 empty TEU locked, ETA Apr 19 HCMC confirmed' },
+  { agent:'OPTIMIZER', color:'#F59E0B', text:'Co-load match: PT Sinarmas Agro (280 TEU, HCMC→Jakarta) — $68,400 revenue captured' },
+  { agent:'DEMAND',    color:'#00B4D8', text:'FBX01 Composite Index +3.2% — demand acceleration confirmed across SE Asia lanes' },
+  { agent:'SAP',       color:'#8B5CF6', text:'Booking REF-2847 auto-confirmed — HCMC slot locked, customer notified in 4.2s' },
+  { agent:'SUPPLY',    color:'#10B981', text:'Port Klang check — 1,200 surplus TEU available, pre-staging queued for Scenario B' },
+  { agent:'ATLAS',     color:'#42B4E6', text:'Prediction confidence rising 94.1% → 94.7% — Red Sea rerouting impact factored in' },
+  { agent:'NEWS',      color:'#5B8DB8', text:'OOCL TIANJIN delay processed — 3 affected bookings re-routed via EVER GOLDEN' },
+  { agent:'OPTIMIZER', color:'#F59E0B', text:'Street-turn opportunity: Singapore → HCMC — $0 repositioning, saving $41,200 vs lease' },
+  { agent:'DEMAND',    color:'#00B4D8', text:'Samsung DC procurement signal detected — Busan surge +340 TEU, alerting Supply agent' },
+  { agent:'SUPPLY',    color:'#10B981', text:'Fleet scan complete — 14 vessels with 800+ empty TEU identified in target window' },
+  { agent:'SAP',       color:'#8B5CF6', text:'SLA monitor: 2,847 open bookings — 0 violations, avg fulfillment 3.8 hours' },
+]
+
+function LiveIntelFeed() {
+  const [logs, setLogs] = useState(() => {
+    const now = new Date()
+    return INTEL_MSGS.slice(0, 4).map((m, i) => ({
+      ...m,
+      time: new Date(now - (3 - i) * 4000).toLocaleTimeString('en-US', { hour12:false, hour:'2-digit', minute:'2-digit', second:'2-digit' }),
+    }))
+  })
+  const [idx, setIdx] = useState(4)
+  const logRef = useRef(null)
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setIdx(i => {
+        const next = i % INTEL_MSGS.length
+        const entry = { ...INTEL_MSGS[next], time: new Date().toLocaleTimeString('en-US', { hour12:false, hour:'2-digit', minute:'2-digit', second:'2-digit' }) }
+        setLogs(prev => [...prev.slice(-11), entry])
+        return i + 1
+      })
+    }, 3200)
+    return () => clearInterval(t)
+  }, [])
+
+  useEffect(() => {
+    if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight
+  }, [logs])
+
+  return (
+    <div className="card overflow-hidden">
+      <div className="flex items-center gap-2 px-4 py-2 border-b border-maersk-blue/20 bg-maersk-dark/70">
+        <motion.div animate={{ opacity:[1,0.3,1] }} transition={{ duration:1.4, repeat:Infinity }}
+          className="w-2 h-2 rounded-full bg-atlas-green shrink-0" />
+        <span className="text-[10px] font-bold text-atlas-green uppercase tracking-widest">ATLAS Live Intelligence Feed</span>
+        <span className="ml-auto text-[10px] text-gray-600 font-mono hidden sm:inline">5 agents · 72 ports · real-time</span>
+      </div>
+      <div ref={logRef} className="font-mono text-[11px] p-3 h-28 overflow-y-auto space-y-1 scrollbar-none"
+        style={{ background:'rgba(0,0,0,0.35)' }}>
+        {logs.map((log, i) => (
+          <motion.div key={i} initial={{ opacity:0, x:-6 }} animate={{ opacity:1, x:0 }} className="flex gap-2 min-w-0">
+            <span className="text-gray-600 shrink-0 font-mono">{log.time}</span>
+            <span className="font-bold shrink-0" style={{ color: log.color }}>[{log.agent}]</span>
+            <span className="text-gray-300 truncate">{log.text}</span>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 // ══════════════════════════════════════════════════════════════════════════════
 //  MAIN PAGE
 // ══════════════════════════════════════════════════════════════════════════════
@@ -208,6 +275,7 @@ export default function ContainerSC() {
   const [time,              setTime]              = useState(new Date())
   const [bookingPopupReady, setBookingPopupReady] = useState(false)
   const [bookingTime,       setBookingTime]       = useState('')
+  const [dataPoints,        setDataPoints]        = useState(2_847_391)
 
   // Auto-trigger alert whenever stage is IDLE (on mount and after any reset/scenario change)
   useEffect(() => {
@@ -220,6 +288,12 @@ export default function ContainerSC() {
   // Clock tick
   useEffect(() => {
     const t = setInterval(() => setTime(new Date()), 1000)
+    return () => clearInterval(t)
+  }, [])
+
+  // Live data point counter
+  useEffect(() => {
+    const t = setInterval(() => setDataPoints(n => n + Math.floor(Math.random() * 180 + 40)), 1800)
     return () => clearInterval(t)
   }, [])
 
@@ -320,6 +394,7 @@ export default function ContainerSC() {
             <div className="hidden lg:flex items-center gap-2 text-xs">
               <span className="stat-pill">⚓ {SYSTEM_INFO.network.vessels}</span>
               <span className="stat-pill">🗺 {SYSTEM_INFO.network.ports}</span>
+              <span className="stat-pill text-atlas-green">⚡ {dataPoints.toLocaleString()} signals</span>
             </div>
             <span className="hidden sm:inline text-xs text-maersk-muted font-mono">{time.toISOString().slice(11,19)} UTC</span>
             <div className="flex items-center gap-1.5">
@@ -583,6 +658,9 @@ export default function ContainerSC() {
                 </div>
               </div>
 
+              {/* Live intelligence feed */}
+              <LiveIntelFeed />
+
               {/* Bottom row: inventory + data sources */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="lg:col-span-2">
@@ -621,7 +699,7 @@ export default function ContainerSC() {
               <AgentPipeline flow={flow} />
 
               {/* Act screens for pipeline — street-turn + co-load only */}
-              <Act2AScreen flow={flow} />
+              <Act2AScreen flow={flow} mode="street-turn" />
               <Act2CScreen flow={flow} />
 
             </motion.div>
@@ -669,7 +747,7 @@ export default function ContainerSC() {
               )}
 
               {/* Act 4A — ATLAS Recommendation (once user clicks View Recommendation) */}
-              <Act2AScreen flow={flow} />
+              <Act2AScreen flow={flow} mode="recommendation" />
 
               {/* Act 4B — SAP Execution */}
               <Act4BScreen flow={flow} />

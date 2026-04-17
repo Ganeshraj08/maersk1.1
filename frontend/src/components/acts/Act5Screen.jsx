@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area, AreaChart } from 'recharts'
-import { FLOW_STAGES } from '../../hooks/useAtlasFlow'
+import { FLOW_STAGES, stageAtLeast } from '../../hooks/useAtlasFlow'
 import { ATLAS_PREDICTION, ACTUAL_BOOKING, PERFORMANCE_METRICS, PERFORMANCE_FORECAST, YEAR_FORECAST } from '../../data/maritimeData'
 
 const CustomTooltip = ({ active, payload, label }) => {
@@ -22,9 +22,10 @@ const CustomTooltip = ({ active, payload, label }) => {
 export default function Act5Screen({ flow }) {
   const { stage, complete, reset } = flow
   const navigate = useNavigate()
-  if (stage !== FLOW_STAGES.ACT5_CLOSING) return null
+  if (!stageAtLeast(stage, FLOW_STAGES.ACT5_CLOSING)) return null
 
   const accuracy = PERFORMANCE_METRICS.predictionAccuracy
+  const isComplete = stage === FLOW_STAGES.COMPLETE
 
   const handleNavigateToDashboard = () => {
     complete()
@@ -179,12 +180,18 @@ export default function Act5Screen({ flow }) {
 
       {/* Complete flow */}
       <div className="flex gap-3">
-        <button
-          onClick={handleNavigateToDashboard}
-          className="btn-primary flex-1 py-3"
-        >
-          ✓ Complete — Navigate to Dashboard
-        </button>
+        {!isComplete ? (
+          <button
+            onClick={handleNavigateToDashboard}
+            className="btn-primary flex-1 py-3"
+          >
+            ✓ Complete — Navigate to Dashboard
+          </button>
+        ) : (
+          <div className="flex-1 py-3 text-center">
+            <span className="badge-green">✓ Demo complete — viewing Global Monitor</span>
+          </div>
+        )}
         <button onClick={reset} className="btn-secondary px-6">
           Reset Demo
         </button>
