@@ -210,7 +210,7 @@ export function useAtlasFlow() {
     })
   }, [activeScenario])
 
-  // ── Complete → update dashboard KPIs ───────────────────────────────────────
+  // ── Complete → navigate to dashboard ───────────────────────────────────────
   const complete = useCallback(() => {
     setStage(FLOW_STAGES.COMPLETE)
     setDashboardUpdated(true)

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area, AreaChart } from 'recharts'
 import { FLOW_STAGES } from '../../hooks/useAtlasFlow'
@@ -20,9 +21,15 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export default function Act5Screen({ flow }) {
   const { stage, complete, reset } = flow
+  const navigate = useNavigate()
   if (stage !== FLOW_STAGES.ACT5_CLOSING) return null
 
   const accuracy = PERFORMANCE_METRICS.predictionAccuracy
+
+  const handleNavigateToDashboard = () => {
+    complete()
+    navigate('/')
+  }
 
   return (
     <motion.div
@@ -173,10 +180,10 @@ export default function Act5Screen({ flow }) {
       {/* Complete flow */}
       <div className="flex gap-3">
         <button
-          onClick={complete}
+          onClick={handleNavigateToDashboard}
           className="btn-primary flex-1 py-3"
         >
-          ✓ Complete — Update Dashboard
+          ✓ Complete — Navigate to Dashboard
         </button>
         <button onClick={reset} className="btn-secondary px-6">
           Reset Demo
