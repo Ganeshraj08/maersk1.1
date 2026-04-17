@@ -28,7 +28,7 @@ export default function Act5Screen({ flow }) {
 
   const handleNavigateToDashboard = () => {
     complete()
-    navigate('/')
+    navigate('/container-sc')
   }
 
   return (

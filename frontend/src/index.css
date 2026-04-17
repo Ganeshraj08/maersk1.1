@@ -70,11 +70,20 @@
 
   /* Tab buttons */
   .tab-btn {
-    @apply px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200
-           text-maersk-muted hover:text-white hover:bg-maersk-blue/20;
+    @apply px-3 py-2 text-xs sm:px-4 sm:text-sm font-medium rounded-lg transition-all duration-200
+           text-maersk-muted hover:text-white hover:bg-maersk-blue/20 whitespace-nowrap;
   }
   .tab-btn.active {
     @apply bg-maersk-blue/30 text-maersk-teal border border-maersk-blue/50;
+  }
+
+  /* Scrollbar utilities */
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 
   /* Table */

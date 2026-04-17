@@ -214,7 +214,7 @@ export default function Home() {
                       animate={{ opacity:1, y:0,  scale:1 }}
                       exit={{ opacity:0,  y:-8, scale:0.95 }}
                       transition={{ duration:0.15 }}
-                      className="absolute right-0 top-10 z-50 w-72 bg-maersk-dark border border-maersk-blue/30 rounded-xl shadow-2xl p-4"
+                      className="absolute right-0 top-10 z-50 w-[calc(100vw-2rem)] max-w-xs sm:w-72 bg-maersk-dark border border-maersk-blue/30 rounded-xl shadow-2xl p-4"
                       style={{ boxShadow:'0 8px 40px rgba(0,0,0,0.6)' }}
                     >
                       <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-3">Demo Settings</p>
@@ -290,8 +290,8 @@ export default function Home() {
         <div className="absolute inset-0 bg-grid-pattern opacity-30" />
         <div className="absolute inset-0" style={{ background:'radial-gradient(ellipse 80% 60% at 50% -20%, rgba(0,119,182,0.25) 0%, transparent 70%)' }} />
 
-        <div className="relative max-w-screen-2xl mx-auto px-6 pt-14 pb-10">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+        <div className="relative max-w-screen-2xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-8 sm:pb-10">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-8">
             {/* Text */}
             <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} className="max-w-2xl">
               <div className="flex items-center gap-2 mb-3">
@@ -301,7 +301,7 @@ export default function Home() {
                   All Systems Operational
                 </span>
               </div>
-              <h1 className="text-4xl lg:text-5xl font-black text-white leading-tight mb-3">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-3">
                 Maritime Intelligence
                 <span className="block text-maersk-teal">Control Tower</span>
               </h1>
@@ -312,7 +312,7 @@ export default function Home() {
             </motion.div>
 
             {/* KPI tiles */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-3 w-full lg:w-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full lg:w-auto lg:shrink-0">
               {HERO_KPIS.map((k, i) => (
                 <motion.div
                   key={k.label}
@@ -336,7 +336,7 @@ export default function Home() {
             initial={{ opacity:0 }}
             animate={{ opacity:1 }}
             transition={{ delay:0.4 }}
-            className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3"
+            className="mt-6 lg:mt-8 grid grid-cols-2 md:grid-cols-4 gap-3"
           >
             {[
               { before: IMPACT.costPerTEUBefore, after: IMPACT.costPerTEUAfter, label:'Cost/TEU', unit:'$', reduction:IMPACT.costReduction },

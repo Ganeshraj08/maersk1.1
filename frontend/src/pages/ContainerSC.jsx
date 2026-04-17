@@ -167,19 +167,20 @@ function KpiImpactTab() {
       </div>
 
       <div className="card p-5">
-        <h4 className="font-semibold text-white mb-1">Empty Repositioning Cost — 5-Year Trend</h4>
-        <p className="text-xs text-gray-500 mb-4">$ Millions · ATLAS introduced Q1 2025</p>
+        <h4 className="font-semibold text-white mb-1">Repositioning & Leasing Cost — 5-Year Trend</h4>
+        <p className="text-xs text-gray-500 mb-4">$ Billions (Annual) · ATLAS introduced Q1 2025</p>
         <ResponsiveContainer width="100%" height={180}>
           <BarChart data={COST_HISTORY} margin={{ top:5, right:20, bottom:5, left:10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,119,182,0.15)" />
             <XAxis dataKey="year" tick={{ fill:'#5B8DB8', fontSize:11 }} />
-            <YAxis tick={{ fill:'#5B8DB8', fontSize:11 }} tickFormatter={v => `$${v}M`} />
+            <YAxis tick={{ fill:'#5B8DB8', fontSize:11 }} tickFormatter={v => `$${(v/1000).toFixed(1)}B`} />
             <Tooltip
               contentStyle={{ background:'#00243D', border:'1px solid rgba(0,119,182,0.3)', borderRadius:'8px', fontSize:11 }}
               labelStyle={{ color:'#00B4D8' }}
+              formatter={(v, name) => [`$${(v/1000).toFixed(2)}B`, name]}
             />
-            <Bar dataKey="cost"  name="Repo Cost"  fill="#0077B6" radius={[3,3,0,0]} />
-            <Bar dataKey="lease" name="Lease Cost" fill="#00B4D8" radius={[3,3,0,0]} opacity={0.7} />
+            <Bar dataKey="cost"  name="Repositioning Cost" fill="#0077B6" radius={[3,3,0,0]} />
+            <Bar dataKey="lease" name="Leasing Cost"        fill="#00B4D8" radius={[3,3,0,0]} opacity={0.7} />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -313,14 +314,14 @@ export default function ContainerSC() {
             <div className="w-7 h-7 rounded-lg bg-maersk-teal flex items-center justify-center text-maersk-dark font-black text-xs">A</div>
             <span className="font-bold text-white text-sm">ATLAS</span>
           </Link>
-          <span className="text-gray-600 text-sm">/</span>
-          <span className="text-maersk-teal text-sm font-medium">Container Repositioning</span>
-          <div className="ml-auto flex items-center gap-3">
-            <div className="hidden md:flex items-center gap-2 text-xs">
+          <span className="hidden sm:inline text-gray-600 text-sm">/</span>
+          <span className="hidden sm:inline text-maersk-teal text-sm font-medium truncate max-w-[160px]">Container Repositioning</span>
+          <div className="ml-auto flex items-center gap-2 sm:gap-3">
+            <div className="hidden lg:flex items-center gap-2 text-xs">
               <span className="stat-pill">⚓ {SYSTEM_INFO.network.vessels}</span>
               <span className="stat-pill">🗺 {SYSTEM_INFO.network.ports}</span>
             </div>
-            <span className="text-xs text-maersk-muted font-mono">{time.toISOString().slice(11,19)} UTC</span>
+            <span className="hidden sm:inline text-xs text-maersk-muted font-mono">{time.toISOString().slice(11,19)} UTC</span>
             <div className="flex items-center gap-1.5">
               <span className="live-dot" />
               <span className="text-atlas-green text-xs font-medium">LIVE</span>
@@ -359,7 +360,7 @@ export default function ContainerSC() {
 
       {/* ── KPI Metrics row ──────────────────────────────────────────── */}
       <div className="max-w-screen-2xl mx-auto px-4 py-4 w-full">
-        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-9 gap-3 items-stretch">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-9 gap-3 items-stretch">
           {Object.entries(displayKpis).map(([k, kpi], i) => {
             const isBookingCard  = k === 'bookingNotifications'
             const isAlertCard    = k === 'proactiveAlerts'
@@ -477,12 +478,12 @@ export default function ContainerSC() {
 
       {/* ── Tabs ─────────────────────────────────────────────────────── */}
       <div className="max-w-screen-2xl mx-auto px-4 w-full">
-        <div className="flex gap-1 border-b border-maersk-blue/20 pb-0">
+        <div className="flex gap-1 border-b border-maersk-blue/20 pb-0 overflow-x-auto scrollbar-none">
           {TABS.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`tab-btn ${activeTab === tab.id ? 'active' : ''}`}
+              className={`tab-btn shrink-0 ${activeTab === tab.id ? 'active' : ''}`}
             >
               {tab.label}
               {tab.id === 'pipeline' && stage !== FLOW_STAGES.IDLE && (
@@ -531,7 +532,7 @@ export default function ContainerSC() {
 
               {/* Ports section */}
               <div>
-                <div className="flex items-center justify-between flex-wrap gap-3 mb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
                   <div>
                     <h3 className="font-bold text-white">Global Port Network</h3>
                     <p className="text-xs text-gray-500">

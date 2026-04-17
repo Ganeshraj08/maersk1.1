@@ -632,7 +632,7 @@ export const PROBLEM_STATE_KPIS = {
   decisionTime:           { value:'72 hrs',   change:0,     label:'Decision Time (Manual)',    period:'Manual', unit:'hrs', inverse:true  },
   proactiveAlerts:        { value:0,          change:0,     label:'Proactive Alerts',          period:'Now',    unit:''                   },
   bookingNotifications:   { value:'0 queued', change:0,     label:'Booking Notifications',     period:'Live',   unit:''                   },
-  containerLeaseCost:     { value:'$3.1M',    change:+8.5,  label:'Container Leasing Cost',    period:'MTD',    unit:'USD', inverse:true  },
+  containerLeaseCost:     { value:'$3.1B',    change:+8.5,  label:'Container Leasing Cost',    period:'Annual', unit:'USD', inverse:true  },
   coLoadSavings:          { value:'$0',       change:0,     label:'Co-load Savings Captured',  period:'Today',  unit:'USD', inverse:false },
   co2Reduction:           { value:'0%',       change:0,     label:'CO₂ Reduction YTD',         period:'YTD',    unit:'%',   inverse:false },
 }
@@ -644,7 +644,7 @@ export const RESOLVED_KPIS = {
   decisionTime:           { value:'4.2s',     change:-99,   label:'AI Decision Time',          period:'AI',         unit:'sec', inverse:true  },
   proactiveAlerts:        { value:0,          change:0,     label:'Proactive Alerts',          period:'Now',        unit:''                   },
   bookingNotifications:   { value:'132 sent', change:+594,  label:'Booking Notifications',     period:'Automated',  unit:''                   },
-  containerLeaseCost:     { value:'$2.1M',    change:-32,   label:'Container Leasing Cost',    period:'MTD',        unit:'USD', inverse:true  },
+  containerLeaseCost:     { value:'$2.1B',    change:-32,   label:'Container Leasing Cost',    period:'Annual',     unit:'USD', inverse:true  },
   coLoadSavings:          { value:'$286K',    change:+741,  label:'Co-load Savings Captured',  period:'Today',      unit:'USD', inverse:false },
   co2Reduction:           { value:'23%',      change:+19,   label:'CO₂ Reduction YTD',         period:'YTD',        unit:'%',   inverse:false },
 }
