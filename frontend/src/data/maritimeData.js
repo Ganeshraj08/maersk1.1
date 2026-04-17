@@ -653,12 +653,12 @@ export const DASHBOARD_KPIS = PROBLEM_STATE_KPIS
 
 // ─── COST HISTORY ────────────────────────────────────────────────────────────
 export const COST_HISTORY = [
-  { year:2020, cost:1820, lease:3100 },
-  { year:2021, cost:2100, lease:4200 },
-  { year:2022, cost:2350, lease:4850 },
-  { year:2023, cost:1980, lease:3900 },
-  { year:2024, cost:1620, lease:3200 },
-  { year:2025, cost:1470, lease:2100 },
+  { year:2020, cost:1380, lease:2200 },
+  { year:2021, cost:1520, lease:2480 },
+  { year:2022, cost:1650, lease:2720 },
+  { year:2023, cost:1620, lease:2860 },
+  { year:2024, cost:1820, lease:3100 },
+  { year:2025, cost:1200, lease:2100 },
 ]
 
 // ─── USE CASES — AI Modules ───────────────────────────────────────────────────

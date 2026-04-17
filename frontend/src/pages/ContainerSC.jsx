@@ -168,7 +168,7 @@ function KpiImpactTab() {
 
       <div className="card p-5">
         <h4 className="font-semibold text-white mb-1">Repositioning & Leasing Cost — 5-Year Trend</h4>
-        <p className="text-xs text-gray-500 mb-4">$ Billions (Annual) · ATLAS introduced Q1 2025</p>
+        <p className="text-xs text-gray-500 mb-4">$ Billions (Annual) · 2025 = ATLAS projected savings</p>
         <ResponsiveContainer width="100%" height={180}>
           <BarChart data={COST_HISTORY} margin={{ top:5, right:20, bottom:5, left:10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,119,182,0.15)" />
