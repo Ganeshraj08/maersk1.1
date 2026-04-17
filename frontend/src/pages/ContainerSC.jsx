@@ -276,6 +276,7 @@ export default function ContainerSC() {
   const [bookingPopupReady, setBookingPopupReady] = useState(false)
   const [bookingTime,       setBookingTime]       = useState('')
   const [dataPoints,        setDataPoints]        = useState(2_847_391)
+  const [scSettingsOpen,    setScSettingsOpen]    = useState(false)
 
   // Auto-trigger alert whenever stage is IDLE (on mount and after any reset/scenario change)
   useEffect(() => {
@@ -308,12 +309,14 @@ export default function ContainerSC() {
     if (stage === FLOW_STAGES.AGENTS_RUNNING) {
       setActiveTab('pipeline')
     } else if (stage === FLOW_STAGES.REPOSITIONING_APPROVED) {
-      // Return to overview so user sees updated dashboard first
       setActiveTab('overview')
       setBookingPopupReady(false)
     } else if (stage === FLOW_STAGES.ACT3_BOOKING) {
       setActiveTab('bookings')
       setBookingPopupReady(false)
+    } else if (stage === FLOW_STAGES.COMPLETE) {
+      // "Navigate to Dashboard" was clicked — switch to Global Monitor tab
+      setActiveTab('overview')
     }
   }, [stage])
 
@@ -400,6 +403,49 @@ export default function ContainerSC() {
             <div className="flex items-center gap-1.5">
               <span className="live-dot" />
               <span className="text-atlas-green text-xs font-medium">LIVE</span>
+            </div>
+
+            {/* ── Settings gear (Reset Demo only) ──────────────────── */}
+            <div className="relative">
+              <button
+                onClick={() => setScSettingsOpen(o => !o)}
+                className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
+                  scSettingsOpen
+                    ? 'bg-maersk-teal/20 border border-maersk-teal/50 text-maersk-teal'
+                    : 'bg-maersk-blue/10 border border-maersk-blue/30 text-gray-400 hover:text-white hover:border-maersk-blue/60'
+                }`}
+                title="Demo settings"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+              </button>
+              <AnimatePresence>
+                {scSettingsOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setScSettingsOpen(false)} />
+                    <motion.div
+                      initial={{ opacity:0, y:-8, scale:0.95 }}
+                      animate={{ opacity:1, y:0,  scale:1 }}
+                      exit={{ opacity:0,  y:-8, scale:0.95 }}
+                      transition={{ duration:0.15 }}
+                      className="absolute right-0 top-10 z-50 w-56 bg-maersk-dark border border-maersk-blue/30 rounded-xl shadow-2xl p-4"
+                      style={{ boxShadow:'0 8px 40px rgba(0,0,0,0.6)' }}
+                    >
+                      <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-3">Demo Controls</p>
+                      <button
+                        onClick={() => { flow.reset(); setScSettingsOpen(false) }}
+                        className="btn-secondary w-full text-xs py-2"
+                      >
+                        ↺ Reset Demo
+                      </button>
+                      <p className="text-[10px] text-gray-600 mt-2 text-center">
+                        Resets all flow stages and restarts the demo.
+                      </p>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
             </div>
 
           </div>
@@ -754,19 +800,6 @@ export default function ContainerSC() {
 
               {/* Act 5 — Performance / Prediction Reveal */}
               <Act5Screen flow={flow} />
-
-              {/* Reset once complete */}
-              {stage === FLOW_STAGES.COMPLETE && (
-                <motion.div
-                  initial={{ opacity:0 }}
-                  animate={{ opacity:1 }}
-                  className="pt-2"
-                >
-                  <button onClick={flow.reset} className="btn-secondary w-full">
-                    ↺ Reset Demo — Run Another Scenario
-                  </button>
-                </motion.div>
-              )}
             </motion.div>
           )}
 

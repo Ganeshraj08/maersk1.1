@@ -20,7 +20,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 }
 
 export default function Act5Screen({ flow }) {
-  const { stage, complete, reset } = flow
+  const { stage, complete } = flow
   const navigate = useNavigate()
   if (!stageAtLeast(stage, FLOW_STAGES.ACT5_CLOSING)) return null
 
@@ -183,18 +183,15 @@ export default function Act5Screen({ flow }) {
         {!isComplete ? (
           <button
             onClick={handleNavigateToDashboard}
-            className="btn-primary flex-1 py-3"
+            className="btn-primary w-full py-3"
           >
             ✓ Complete — Navigate to Dashboard
           </button>
         ) : (
-          <div className="flex-1 py-3 text-center">
+          <div className="w-full py-3 text-center">
             <span className="badge-green">✓ Demo complete — viewing Global Monitor</span>
           </div>
         )}
-        <button onClick={reset} className="btn-secondary px-6">
-          Reset Demo
-        </button>
       </div>
     </motion.div>
   )
