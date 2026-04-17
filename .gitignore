@@ -30,8 +30,8 @@ Thumbs.db
 
 # Streamlit / data
 .streamlit/
-data/
-models/
+/data/
+/models/
 
 # Claude worktree config
 .claude/
